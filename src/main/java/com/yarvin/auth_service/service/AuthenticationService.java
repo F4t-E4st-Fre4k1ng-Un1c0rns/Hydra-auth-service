@@ -1,11 +1,10 @@
 package com.yarvin.auth_service.service;
 
 import com.yarvin.auth_service.store.dto.JwtAuthenticationResponseDto;
-import com.yarvin.auth_service.store.dto.SignInResponseDto;
+import com.yarvin.auth_service.store.dto.SignInDto;
 import com.yarvin.auth_service.store.dto.SignUpDto;
 import com.yarvin.auth_service.store.entity.RoleEntity;
 import com.yarvin.auth_service.store.entity.UserEntity;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,6 +23,7 @@ public class AuthenticationService {
     public JwtAuthenticationResponseDto signUp(SignUpDto request) {
 
         var user = UserEntity.builder()
+                .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(RoleEntity.builder().name("User").build())
@@ -36,15 +36,15 @@ public class AuthenticationService {
     }
 
 
-    public JwtAuthenticationResponseDto signIn(SignInResponseDto request) {
+    public JwtAuthenticationResponseDto signIn(SignInDto request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                request.getEmail(),
+                request.getUsername(),
                 request.getPassword()
         ));
 
         var user = userService
                 .userDetailsService()
-                .loadUserByUsername(request.getEmail());
+                .loadUserByUsername(request.getUsername());
 
         var jwt = jwtService.generateToken(user);
         return new JwtAuthenticationResponseDto(jwt);

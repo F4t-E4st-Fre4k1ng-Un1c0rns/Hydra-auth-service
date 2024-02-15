@@ -23,6 +23,10 @@ public class UserEntity implements UserDetails {
 
     @Getter
     @Setter
+    private String username;
+
+    @Getter
+    @Setter
     private String email;
 
     @Getter
