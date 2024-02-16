@@ -8,7 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.UUID;
 
-
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,27 +18,19 @@ import java.util.UUID;
 public class UserEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Getter
-    @Setter
     private UUID id;
 
-    @Getter
-    @Setter
+
     private String username;
 
-    @Getter
-    @Setter
+
     private String email;
 
-    @Getter
+
     private String password;
 
-    public void setPassword(String password) {
-        this.password = String.valueOf(password.hashCode());
-    }
 
-    @Getter
-    @Setter
+
     @OneToOne
     @JoinColumn(name = "role_id")
     private RoleEntity role;
