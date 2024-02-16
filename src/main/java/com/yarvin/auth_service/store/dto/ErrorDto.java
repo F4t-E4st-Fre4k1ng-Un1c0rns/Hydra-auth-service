@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class JwtAuthenticationResponseDto {
-    private String token;
-    private String role;
+public class ErrorDto extends Throwable {
+    private String message;
+
+
 }

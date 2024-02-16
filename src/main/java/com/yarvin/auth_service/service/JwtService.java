@@ -32,12 +32,16 @@ public class JwtService {
         if (userDetails instanceof UserEntity customUserDetails) {
             claims.put("id", customUserDetails.getId());
             claims.put("email", customUserDetails.getEmail());
-            claims.put("role", customUserDetails.getRole());
+            claims.put("role", customUserDetails.getRole().getName());
         }
         return generateToken(claims, userDetails);
     }
 
 
+    public boolean isTokenValid(String token) {
+        final String userName = extractUserName(token);
+        return !isTokenExpired(token);
+    }
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String userName = extractUserName(token);
         return (userName.equals(userDetails.getUsername())) && !isTokenExpired(token);
