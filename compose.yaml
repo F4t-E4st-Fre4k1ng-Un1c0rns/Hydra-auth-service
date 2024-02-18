@@ -1,5 +1,8 @@
+version: '2'
+
 services:
-  postgres:
+  db:
+    container_name: 'hydra-db'
     image: 'postgres:latest'
     environment:
       - 'POSTGRES_DB=mydatabase'
@@ -9,10 +12,17 @@ services:
       - '5432:5432'
     command:
       - -p 5432
-#  rabbitmq:
-#    image: 'rabbitmq:latest'
-#    environment:
-#      - 'RABBITMQ_DEFAULT_PASS=secret'
-#      - 'RABBITMQ_DEFAULT_USER=myuser'
-#    ports:
-#      - '5672'
+  client-backend:
+    container_name: 'hydra-auth'
+    restart: always
+    build: ./
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/mydatabase
+      - SPRING_DATASOURCE_USERNAME=compose-postgres
+      - SPRING_DATASOURCE_PASSWORD=compose-postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_HIBERNATE_DIALECT=postgresql
