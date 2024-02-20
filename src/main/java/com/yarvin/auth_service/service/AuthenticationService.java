@@ -67,7 +67,12 @@ public class AuthenticationService {
             var user = userService.getByUsername(username);
             var role_id = user.getRole();
             var role = roleRepository.findByid(role_id.getId());
-            return new AuthentificationTokenResponseDto(username,user.getEmail(),role.getName(),user.getId());
+            return new AuthentificationTokenResponseDto(
+                    username,user.getEmail(),role.getName(),
+                    user.getId(),user.getIsSponsor(),user.getInn(),
+                    user.getOgrn(),user.getSponsorAdress(),user.getName(),
+                    user.getSecondName(),user.getFatherName(),user.getCity(),
+                    user.getDateOfBirth());
         }
 
         throw new ErrorDto("Токен не валиден");
@@ -76,6 +81,12 @@ public class AuthenticationService {
     public AuthentificationIdResponseDto findById(UuidDto request) {
         var user = userRepository.findById(request.getId());
         var role = roleRepository.findById(user.get().getRole().getId());
-        return new AuthentificationIdResponseDto(user.get().getUsername(),user.get().getEmail(),role.get().getName());
+        return new AuthentificationIdResponseDto(
+                user.get().getUsername(), user.get().getEmail(),
+                role.get().getName(),user.get().getIsSponsor(),
+                user.get().getInn(), user.get().getOgrn(),
+                user.get().getSponsorAdress(),user.get().getName(),
+                user.get().getSecondName(),user.get().getFatherName(),
+                user.get().getCity(), user.get().getDateOfBirth());
     }
 }

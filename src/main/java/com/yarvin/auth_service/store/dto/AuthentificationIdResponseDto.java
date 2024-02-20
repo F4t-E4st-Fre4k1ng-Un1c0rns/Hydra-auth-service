@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Data
@@ -17,4 +18,15 @@ public class AuthentificationIdResponseDto {
     private String email;
     private String role;
 
+    private Boolean isSponsor;
+    private String inn;
+    private String ogrn;
+    private String sponsorAdress;
+
+
+    private String name;
+    private String secondName;
+    private String fatherName;
+    private String city;
+    private Date dateOfBirth;
 }

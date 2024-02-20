@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,6 +37,19 @@ public class UserEntity implements UserDetails {
     @ManyToOne
     @JoinColumn(name = "role_id")
     private RoleEntity role;
+
+    private Boolean isSponsor;
+    private String inn;
+    private String ogrn;
+    private String sponsorAdress;
+
+
+    private String name;
+    private String secondName;
+    private String fatherName;
+    private String city;
+    private Date dateOfBirth;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
