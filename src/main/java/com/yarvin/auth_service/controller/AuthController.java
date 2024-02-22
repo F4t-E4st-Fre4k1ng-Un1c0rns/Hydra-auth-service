@@ -44,9 +44,9 @@ public class AuthController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @PostMapping("/viewCorsAndScreenDataAdminPanelFunctionAndExtraFunctionsLoginFindUsersJavaPainfullCryDeathSufferFactorySingletonAbstract")
-    public List<AuthentificationIdResponseDto> authArrayId(@RequestBody UuidDto[] request){
-        List<AuthentificationIdResponseDto> users = userService.GetUsersById(request);
+    @PostMapping("/userList")
+    public List<AuthentificationIdResponseDto> authArrayId(@RequestBody UuidListDto request){
+        List<AuthentificationIdResponseDto> users = userService.GetUsersById(request.getList());
 
         return users;
     }

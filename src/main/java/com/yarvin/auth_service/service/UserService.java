@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -69,7 +70,7 @@ public class UserService {
     }
 
     public List<AuthentificationIdResponseDto> GetUsersById(UuidDto[] request) {
-        List<AuthentificationIdResponseDto> listUsers = null;
+        List<AuthentificationIdResponseDto> listUsers = new ArrayList<AuthentificationIdResponseDto>();
         for (int i = 0; i < request.length; i++){
            var user = repository.findUserById(request[i].getId());
            var role = roleRepository.findById(user.get().getRole().getId());
