@@ -1,6 +1,9 @@
 package com.yarvin.auth_service.service;
 
+import com.yarvin.auth_service.repository.RoleRepository;
 import com.yarvin.auth_service.repository.UserRepository;
+import com.yarvin.auth_service.store.dto.AuthentificationIdResponseDto;
+import com.yarvin.auth_service.store.dto.UuidDto;
 import com.yarvin.auth_service.store.entity.RoleEntity;
 import com.yarvin.auth_service.store.entity.UserEntity;
 import lombok.AllArgsConstructor;
@@ -9,10 +12,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class UserService {
     private final UserRepository repository;
+    private final RoleRepository roleRepository;
 
 
     public UserEntity save(UserEntity user) {
@@ -62,4 +68,19 @@ public class UserService {
         save(user);
     }
 
+    public List<AuthentificationIdResponseDto> GetUsersById(UuidDto[] request) {
+        List<AuthentificationIdResponseDto> listUsers = null;
+        for (int i = 0; i < request.length; i++){
+           var user = repository.findUserById(request[i].getId());
+           var role = roleRepository.findById(user.get().getRole().getId());
+           AuthentificationIdResponseDto userInfo = new AuthentificationIdResponseDto(user.get().getUsername(), user.get().getEmail(),
+                    role.get().getName(),user.get().getIsSponsor(),
+                    user.get().getInn(), user.get().getOgrn(),
+                    user.get().getSponsorAdress(),user.get().getName(),
+                    user.get().getSecondName(),user.get().getFatherName(),
+                    user.get().getCity(), user.get().getDateOfBirth(),user.get().getClub());
+           listUsers.add(userInfo);
+        }
+        return listUsers;
+    }
 }

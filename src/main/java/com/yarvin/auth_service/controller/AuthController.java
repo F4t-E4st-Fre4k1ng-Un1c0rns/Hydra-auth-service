@@ -1,6 +1,7 @@
 package com.yarvin.auth_service.controller;
 
 import com.yarvin.auth_service.service.AuthenticationService;
+import com.yarvin.auth_service.service.UserService;
 import com.yarvin.auth_service.store.dto.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -15,6 +17,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthenticationService authenticationService;
+    private final UserService userService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/register")
@@ -40,4 +43,11 @@ public class AuthController {
         return authenticationService.findById(request);
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @PostMapping("/viewCorsAndScreenDataAdminPanelFunctionAndExtraFunctionsLoginFindUsersJavaPainfullCryDeathSufferFactorySingletonAbstract")
+    public List<AuthentificationIdResponseDto> authArrayId(@RequestBody UuidDto[] request){
+        List<AuthentificationIdResponseDto> users = userService.GetUsersById(request);
+
+        return users;
+    }
 }
