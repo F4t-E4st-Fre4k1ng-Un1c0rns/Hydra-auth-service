@@ -1,18 +1,16 @@
-#
-# Build stage
-#
-FROM eclipse-temurin:21-jdk-jammy AS build
-ENV HOME=/usr/app
-RUN mkdir -p $HOME
-WORKDIR $HOME
-ADD . $HOME
-RUN ./mvnw -f $HOME/pom.xml clean package
+FROM maven:3.9.6-sapmachine-21 AS build
 
-#
-# Package stage
-#
-FROM eclipse-temurin:21-jre-jammy
-ARG JAR_FILE=/usr/app/target/*.jar
-COPY --from=build $JAR_FILE /app/runner.jar
+COPY pom.xml ./
+COPY .mvn .mvn
+
+COPY src src
+
+RUN mvn clean install
+
+FROM eclipse-temurin:21-jre-jammy 
+
+COPY --from=build target/*.jar app/ays-be.jar
+
 EXPOSE 8080
-ENTRYPOINT java -jar /app/runner.jar
+
+ENTRYPOINT ["java", "-jar", "/app/ays-be.jar"]
