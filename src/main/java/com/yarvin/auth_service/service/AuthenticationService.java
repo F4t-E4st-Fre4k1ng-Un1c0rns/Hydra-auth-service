@@ -31,13 +31,12 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(role)
-
                 .build();
-        System.out.println(user.getEmail());
+
         userService.create(user);
 
         var jwt = jwtService.generateToken(user);
-        System.out.println(jwt);
+
         return new JwtAuthenticationResponseDto(jwt,role.getName());
     }
 
@@ -61,7 +60,7 @@ public class AuthenticationService {
         return new JwtAuthenticationResponseDto(jwt,role.getName());
     }
 
-    public AuthentificationTokenResponseDto validateToken(TokenDto request) throws ErrorDto {
+    public AuthentificationTokenResponseDto validateToken(TokenDto request){
         if(jwtService.isTokenValid(request.getToken())){
             var username = jwtService.extractUserName(request.getToken());
             var user = userService.getByUsername(username);
@@ -72,10 +71,9 @@ public class AuthenticationService {
                     user.getId(),user.getIsSponsor(),user.getInn(),
                     user.getOgrn(),user.getSponsorAdress(),user.getName(),
                     user.getSecondName(),user.getFatherName(),user.getCity(),
-                    user.getDateOfBirth());
+                    user.getDateOfBirth(), user.getClub());
         }
-
-        throw new ErrorDto("Токен не валиден");
+        return null;
     }
 
     public AuthentificationIdResponseDto findById(UuidDto request) {
@@ -87,6 +85,6 @@ public class AuthenticationService {
                 user.get().getInn(), user.get().getOgrn(),
                 user.get().getSponsorAdress(),user.get().getName(),
                 user.get().getSecondName(),user.get().getFatherName(),
-                user.get().getCity(), user.get().getDateOfBirth());
+                user.get().getCity(), user.get().getDateOfBirth(),user.get().getClub());
     }
 }

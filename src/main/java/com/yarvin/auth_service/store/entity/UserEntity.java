@@ -49,6 +49,7 @@ public class UserEntity implements UserDetails {
     private String fatherName;
     private String city;
     private Date dateOfBirth;
+    private String club;
 
 
     @Override

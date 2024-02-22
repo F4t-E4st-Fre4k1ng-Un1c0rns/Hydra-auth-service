@@ -30,4 +30,5 @@ public class AuthentificationTokenResponseDto {
     private String fatherName;
     private String city;
     private Date dateOfBirth;
+    private String club;
 }

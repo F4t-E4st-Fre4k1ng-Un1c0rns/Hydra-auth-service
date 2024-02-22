@@ -29,4 +29,5 @@ public class AuthentificationIdResponseDto {
     private String fatherName;
     private String city;
     private Date dateOfBirth;
+    private String club;
 }
